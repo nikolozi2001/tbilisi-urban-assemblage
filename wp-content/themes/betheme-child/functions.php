@@ -49,3 +49,30 @@ function mfnch_textdomain()
 	load_child_theme_textdomain('mfn-opts', get_stylesheet_directory() . '/languages');
 }
 add_action('after_setup_theme', 'mfnch_textdomain');
+
+//ip check
+function get_the_user_ip() {
+
+if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+
+//check ip from share internet
+
+$ip = $_SERVER['HTTP_CLIENT_IP'];
+
+} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+
+//to check ip is pass from proxy
+
+$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+} else {
+
+$ip = $_SERVER['REMOTE_ADDR'];
+
+}
+
+return apply_filters( 'wpb_get_ip', $ip );
+
+}
+
+add_shortcode('display_ip', 'get_the_user_ip');
